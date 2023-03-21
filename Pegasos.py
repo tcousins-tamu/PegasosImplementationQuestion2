@@ -51,7 +51,7 @@ if __name__ == "__main__":
     ax = fig.add_subplot(111, projection="3d")
 
     # constants for the pegasos algorithm
-    T = 10000
+    T = 100000
     lbda = .0001
 
     # populating the arrays
@@ -96,4 +96,18 @@ if __name__ == "__main__":
     Zp = (weights[0]*Xp+weights[1]*Yp + weights[3])/(-1*weights[2])
     ax.plot_surface(Xp, Yp, Zp, alpha=.5, color="purple")
 
+    totalPts = len(testData)
+    incorrect = 0
+    for pt in testData:
+        estimate = weights[0]*pt[0] + weights[1] * \
+            pt[1] + weights[2]*pt[2] + weights[3]
+        if estimate > 0:
+            estimate = 1
+        else:
+            estimate = -1
+
+        if estimate != pt[-1]:
+            incorrect += 1
+
+    plt.title("Lambda: "+str(lbda)+" Error: "+str(incorrect/totalPts))
     plt.show()
